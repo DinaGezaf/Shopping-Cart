@@ -1,0 +1,77 @@
+
+
+[
+      {
+        "Id": 12,
+        "Name": "Mobile",
+        "Price": "5000",
+        "img_src": "images/Mobile.jpg"
+      },
+      {
+        "Id": 13,
+        "Name": "Taplet",
+        "Price": "6000.00",
+        "img_src": "images/Taplet.jpg"
+      },
+      {
+        "Id": 14,
+        "Name": "Laptop",
+        "Price": "18000.00",
+        "img_src": "images/Laptop.jpg"
+      },
+      {
+        "Id": 15,
+        "Name": "Speaker",
+        "Price": "5000.00",
+        "img_src": "images/Speaker.webp"
+      },
+      {
+        "Id": 16,
+        "Name": "Camera",
+        "Price": "9000.00",
+        "img_src": "images/Camera.webp"
+      },
+      {
+        "Id": 17,
+        "Name": "Headphones",
+        "Price": "3000.00",
+        "img_src": "images/Headphones.webp"
+      },
+      {
+        "Id": 18,
+        "Name": "Watch",
+        "Price": "5000.00",
+        "img_src": "images/DigitWatch.webp"
+      },
+      {
+        "Id": 19,
+        "Name": "Monitor",
+        "Price": "3500.00",
+        "img_src": "images/Monitor.jpg"
+      }
+      ,
+      {
+        "Id": 20,
+        "Name": "3D Glasses",
+        "Price": "4000.00",
+        "img_src": "images/3DGlasses.jpg"
+      },
+      {
+        "Id": 21,
+        "Name": "Power Bank",
+        "Price": "300.00",
+        "img_src": "images/PowerBank.jpg"
+      },
+      {
+        "Id": 19,
+        "Name": "Router",
+        "Price": "500.00",
+        "img_src": "images/Router.jpg"
+      },
+      {
+        "Id": 19,
+        "Name": "USB",
+        "Price": "600.00",
+        "img_src": "images/USB.jpg"
+      }
+]
