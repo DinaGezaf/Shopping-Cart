@@ -131,6 +131,22 @@ header .container{
     justify-content: center;
     font-weight: 600;
 } 
+.cart-total{
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: var(--fire-bush);
+    color: #fff;
+}
+.cart-total h3{
+    margin-right: 0.2rem;
+    font-size: 1.3rem;
+}
+#cart-total-value{
+    font-size: 1.3rem;
+    font-weight: 500;
+}
 .cart-container{
     position: absolute;
     overflow-y: scroll;

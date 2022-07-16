@@ -2,52 +2,15 @@
 const cartContainer = document.querySelector('.cart-container');
 const productList = document.querySelector('.product-list');
 const cartList = document.querySelector('.cart-list');
+const cartTotal = document.getElementById('cart-total-value');
 let cartItemID = 1;
-
-// purchase product
-function purchaseProduct(e){
-    if(e.target.classList.contains('add-to-cart-btn')){
-        let product = e.target.parentElement.parentElement;
-        getProductInfo(product);
-    }
-}
-
-// get product info after add to cart button click
-function getProductInfo(product){
-    let productInfo = {
-        Id: cartItemID,
-        img_src: product.querySelector('.product-img img').src,
-        Name: product.querySelector('.product-name').textContent,
-        Price: product.querySelector('.product-price').textContent
-    }
-    cartItemID++;
-    addToCartList(productInfo);
-}
-
-// add the selected product to the cart list
-function addToCartList(product){
-    const cartItem = document.createElement('div');
-    cartItem.classList.add('cart-item');
-    cartItem.setAttribute('data-id', `${product.Id}`);
-    cartItem.innerHTML = `
-        <img src = "${product.img_src}" alt = "product image">
-        <div class = "cart-item-info">
-            <h3 class = "cart-item-name">${product.Name}</h3>
-            <span class = "cart-item-price">${product.Price}</span>
-        </div>
-        <button type = "button" class = "cart-item-del-btn">
-            <i class = "fas fa-times"></i>
-        </button>
-    `;
-    cartList.appendChild(cartItem);
-}
-
+let cart=[]
 // load product items content form JSON file
 function loadJSON(){
     fetch('products.json')
     .then(response => response.json())
     .then(data =>{
-        let html = '';
+        let html = ``;
         data.forEach(product => {
             html += `
                 <div class = "product-item">
@@ -59,7 +22,7 @@ function loadJSON(){
                     </div>
                     <div class = "product-content">
                         <h3 class = "product-name">${product.Name}</h3>
-                        <p class = "product-price">$${product.Price}</p>
+                        <p class = "product-price">EGP ${product.Price}</p>
                     </div>
                 </div>
             `;
@@ -70,17 +33,89 @@ function loadJSON(){
         alert(`Error.......`);
     })
 }
-
+// get product info after add to cart button click
+function getProductInfo(product){
+    let productInfo = {
+        Id: cartItemID,
+        img_src: product.querySelector('.product-img img').src,
+        Name: product.querySelector('.product-name').textContent,
+        Price: product.querySelector('.product-price').textContent
+    }
+    cartItemID++;
+    addToCartList(productInfo);
+}
+// add the selected product to the cart list
+function addToCartList(productInfo){
+    const cartItem = document.createElement('div');
+    cartItem.classList.add('cart-item');
+    // cartItem.setAttribute('data-id', `${productInfo.Id}`);
+    if(checkout(productInfo.Name)[0]){
+    cart.push(productInfo);
+    cartItem.innerHTML = `
+        <img src = "${productInfo.img_src}" alt = "product image">
+        <div class = "cart-item-info">
+            <h3 class = "cart-item-name">${productInfo.Name}</h3>
+            <span class = "cart-item-price">${productInfo.Price}</span>
+        </div>
+        <input type="number" min="1" value="1">
+        <button type = "button" class = "cart-item-del-btn">
+            <i class = "fas fa-times"></i>
+        </button>
+    `;
+    cartList.appendChild(cartItem);
+    updateTotalPrice()
+    }
+    else alert(`${productInfo.Name} already exists in cart !!`)
+}
+//check product is in cart
+let checkout=(name)=>{
+    for (let product of cart) {
+        if (product.Name == name)
+            return [false, product]
+    }
+    return [true, false]
+}
+// purchase product
+function purchaseProduct(e){
+    if(e.target.classList.contains('add-to-cart-btn')){
+        let product = e.target.parentElement.parentElement;
+        getProductInfo(product); 
+    } 
+}
+//update total price
+function updateTotalPrice(){
+    let inputs = document.querySelectorAll('input')
+    let total =0;
+    for (let i = 0; i < cart.length; i++) {
+        total += Number(cart[i].Price.replace('EGP', '')) * Number(inputs[i].value) 
+    }
+    cartTotal.innerHTML = `${total}EGP`
+}
+ //change total price after delete
+function clear(e) {
+    if (e.target.tagName === 'INPUT') {
+        if (e.target.value <= 0){ 
+        e.target.value = '1'
+        let name = e.target.parentElement.parentElement.innerText
+        let item = checkout(name)[1]
+        if (item) {
+            e.target.parentElement.parentElement.innerText = `${Number(item.Price.replace('EGP', '')) * Number(e.target.value)}$`
+            updateTotalPrice()
+        }
+    }
+}
+}
 // delete product from cart list and local storage
 function deleteProduct(e){
     let cartItem;
     if(e.target.tagName === "BUTTON"){
         cartItem = e.target.parentElement;
-        cartItem.remove(); 
+        cartItem.remove();
     } else if(e.target.tagName === "I"){
         cartItem = e.target.parentElement.parentElement;
-        cartItem.remove(); 
+        cartItem.remove();
     }
+    updateTotalPrice()
 }
 // all event listeners
 function eventListeners(){
@@ -96,12 +131,12 @@ function eventListeners(){
     document.getElementById('cart-btn').addEventListener('click', () => {
         cartContainer.classList.toggle('show-cart-container');
     });
+    cartList.addEventListener('click', clear)
 
-    // add to cart
     productList.addEventListener('click', purchaseProduct);
 
     // delete from cart
     cartList.addEventListener('click', deleteProduct);
 }
-
 eventListeners();
+
