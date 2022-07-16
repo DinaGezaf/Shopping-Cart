@@ -131,6 +131,7 @@ function eventListeners(){
     document.getElementById('cart-btn').addEventListener('click', () => {
         cartContainer.classList.toggle('show-cart-container');
     });
+    //
     cartList.addEventListener('click', clear)
 
     productList.addEventListener('click', purchaseProduct);
