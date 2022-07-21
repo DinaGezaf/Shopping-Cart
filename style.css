@@ -16,7 +16,18 @@ body{
     font-weight: 400;
 }
 input{
-    height: 20px;
+    height: 25px;
+    width: 50px;
+
+    font-size: 21px;
+    background-color: #e99c2f;
+    color: #f8f9fd;
+}
+.xcount{
+    display: block;
+    width: 100%;
+    position: absolute;
+    left: 120px;
 }
 /* resets and resuable stylings */
 img{

@@ -4,7 +4,7 @@ const productList = document.querySelector('.product-list');
 const cartList = document.querySelector('.cart-list');
 const cartTotal = document.getElementById('cart-total-value');
 let cartItemID = 1;
-let cart=[]
+let cartitems=[]
 // load product items content form JSON file
 function loadJSON(){
     fetch('products.json')
@@ -50,14 +50,15 @@ function addToCartList(productInfo){
     cartItem.classList.add('cart-item');
     // cartItem.setAttribute('data-id', `${productInfo.Id}`);
     if(checkout(productInfo.Name)[0]){
-    cart.push(productInfo);
+    cartitems.push(productInfo);
     cartItem.innerHTML = `
         <img src = "${productInfo.img_src}" alt = "product image">
         <div class = "cart-item-info">
             <h3 class = "cart-item-name">${productInfo.Name}</h3>
             <span class = "cart-item-price">${productInfo.Price}</span>
         </div>
-        <input type="number" min="1" value="1">
+        <div class='xcount'>Items : <input type="number" min="1" value="1" class="ins">
+        </div>
         <button type = "button" class = "cart-item-del-btn">
             <i class = "fas fa-times"></i>
         </button>
@@ -69,7 +70,7 @@ function addToCartList(productInfo){
 }
 //check product is in cart
 let checkout=(name)=>{
-    for (let product of cart) {
+    for (let product of cartitems) {
         if (product.Name == name)
             return [false, product]
     }
@@ -83,27 +84,13 @@ function purchaseProduct(e){
     } 
 }
 //update total price
-function updateTotalPrice(){
-    let inputs = document.querySelectorAll('input')
-    let total =0;
-    for (let i = 0; i < cart.length; i++) {
-        total += Number(cart[i].Price.replace('EGP', '')) * Number(inputs[i].value) 
+let updateTotalPrice = () => {
+    let inputs = document.querySelectorAll('input');
+    let total = 0 ;
+    for (let i = 0; i < cartitems.length; i++) {
+      total += Number(cartitems[i].Price.replace('EGP', '')) * Number(inputs[i].value);
     }
-    cartTotal.innerHTML = `${total}EGP`
-}
- //change total price after delete
-function clear(e) {
-    if (e.target.tagName === 'INPUT') {
-        if (e.target.value <= 0){ 
-        e.target.value = '1'
-        let name = e.target.parentElement.parentElement.innerText
-        let item = checkout(name)[1]
-        if (item) {
-            e.target.parentElement.parentElement.innerText = `${Number(item.Price.replace('EGP', '')) * Number(e.target.value)}$`
-            updateTotalPrice()
-        }
-    }
-}
+    cartTotal.innerText = `${total}EGP`
 }
 // delete product from cart list and local storage
 function deleteProduct(e){
@@ -131,8 +118,6 @@ function eventListeners(){
     document.getElementById('cart-btn').addEventListener('click', () => {
         cartContainer.classList.toggle('show-cart-container');
     });
-    //
-    cartList.addEventListener('click', clear)
 
     productList.addEventListener('click', purchaseProduct);
 
