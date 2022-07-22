@@ -87,7 +87,7 @@ function purchaseProduct(e){
 let updateTotalPrice = () => {
     let inputs = document.querySelectorAll('input');
     let total = 0 ;
-    for (let i = 0; i < cartitems.length; i++) {
+    for (let i =0;i<inputs.length; i++) {
       total += Number(cartitems[i].Price.replace('EGP', '')) * Number(inputs[i].value);
     }
     cartTotal.innerText = `${total}EGP`
